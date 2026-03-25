@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Informe AML – RFI</title>
+  <style>
+    /* Reset */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+
+    @page{size:210mm 297mm;margin:0}
+
+    :root{
+      --bg-dark:#000000;
+      --bg-green:#0A2A14;
+      --text:#E6EDF3;
+      --muted:#B8C2CC;
+      --card:#F3F5F7;
+      --ink:#0B1F2A;
+      --ink-2:#475569;
+      --border:#E2E8F0;
+      --accent:#16A34A;
+      --accent-2:#27AE60;
+    }
+
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background: #000000;
+      margin:0;
+      padding:0;
+    }
+
+    .master-header{
+      height:70px;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-green) 100%);
+      color:#E6EDF3;
+      display:flex;
+      align-items:center;
+      padding:0 20px;
+      border-bottom:1px solid rgba(230,235,239,0.2);
+      flex-shrink:0;
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:36px}
+    .alert-meta{margin-left:auto;font-size:13px;opacity:.92}
+
+    .hoja-container{
+      background: transparent;
+      margin:0;
+      padding:0;
+    }
+
+    .page{
+      width:210mm;
+      height:297mm;
+      padding:20px 20px 12px;
+      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-green) 100%);
+      page-break-after:always;
+      margin:0;
+      position: relative;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+    }
+    .page:last-child{page-break-after:auto}
+
+    /* ====== ESTILOS HOJA 1 ====== */
+    .page--hero{
+      padding:0;
+      color:var(--text);
+    }
+    .hero-wrap{padding:12px 20px 8px;}
+
+    .hero-top{display:flex;align-items:center;gap:12px}
+    .meta{margin-left:auto;font-size:11px;opacity:.9}
+    .title-wrap{margin-top:10px}
+    .suptitle{
+      font-size:20px;font-weight:700;letter-spacing:.2px;margin:0 0 8px;color:var(--text);
+    }
+    .identity{
+      display:flex;align-items:baseline;gap:12px;flex-wrap:wrap
+    }
+    .identity h1{
+      font-size:28px;line-height:1.1;margin:0;font-weight:800;color:#FFFFFF
+    }
+    .identity .uid{font-size:14px;font-weight:700;opacity:.9}
+
+    .cta{margin-left:auto}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:8px 14px;border-radius:8px;background:#16C784;color:#08220F;
+      font-weight:800;font-size:12px;border:none;text-decoration:none;
+    }
+
+    .badge-line{
+      margin-top:8px;font-size:13px;color:#D7E0E7;opacity:.95
+    }
+
+    .sheet{
+      background:transparent;padding:0 20px 8px;
+      flex:1;display:flex;flex-direction:column;
+    }
+    .cards{
+      display:grid;grid-template-columns:1fr 1fr;gap:12px;flex:1;
+    }
+    .card{
+      background:var(--card);border-radius:12px;padding:14px;color:var(--ink);
+      min-height:auto;display:flex;flex-direction:column;
+      page-break-inside:avoid;
+    }
+    .card h3{
+      margin:0 0 8px;font-size:14px;font-weight:800;color:var(--ink)
+    }
+    .sep{height:1px;background:var(--border);margin:6px 0}
+
+    .kv{display:grid;grid-template-columns:42% 1fr;column-gap:10px;row-gap:6px;font-size:12px;flex:1}
+    .k{color:var(--ink-2)}
+    .v{color:#0F172A;font-weight:700;word-break:break-word;line-height:1.3}
+
+    .card-full{grid-column:1 / -1;}
+
+    .footer-dark{
+      color:#C6D0D9;opacity:.9;border-top:1px solid #1F3B2A;
+      padding:8px 0;display:flex;justify-content:space-between;font-size:9px;
+      margin-top:auto;
+      flex-shrink:0;
+    }
+
+    /* ====== ESTILOS HOJA 2 ====== */
+    .container {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title-section {
+      margin-bottom: 15px;
+      padding: 0;
+    }
+
+    .main-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: white;
+      margin: 0 0 15px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+      page-break-inside: avoid;
+    }
+
+    .metrics-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .charts-grid-four {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 0;
+      page-break-inside: avoid;
+      flex: 1;
+    }
+
+    .top5-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+      page-break-inside: avoid;
+      flex: 1;
+    }
+
+    .w2w-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+      page-break-inside: avoid;
+      flex: 1;
+    }
+
+    .card-large {
+      min-height: 300px;
+    }
+
+    .card-medium {
+      min-height: 240px;
+    }
+
+    .card-small {
+      min-height: 90px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #374151;
+    }
+
+    .metric-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #4ADE80;
+      margin-bottom: 6px;
+    }
+
+    .metric-label {
+      font-size: 13px;
+      color: #6B7280;
+    }
+
+    .table-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 15px;
+      color: #1F2937;
+      page-break-inside: avoid;
+    }
+
+    .table-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #374151;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #F3F4F6;
+      padding: 8px;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      border-bottom: 2px solid #E5E7EB;
+      font-size: 11px;
+    }
+
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #E5E7EB;
+      font-size: 10px;
+    }
+
+    .chart-placeholder {
+      width: 100%;
+      height: 180px;
+      background: #F3F4F6;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6B7280;
+      font-size: 12px;
+      overflow: hidden;
+    }
+
+    .chart-placeholder-large {
+      height: 200px;
+    }
+
+    .chart-placeholder-small {
+      height: 130px;
+    }
+
+    .chart-placeholder img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    @media print{
+      body{background:#000}
+      .v{max-height:none;overflow:visible}
+      .page{page-break-after:always}
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HOJA 1: Datos personales, cuenta y alerta -->
+  <div id="hoja-1-container" class="hoja-container">
+    <section class="page page--hero">
+      <header class="master-header">
+        <div class="brand">
+          <img src="https://framerusercontent.com/assets/Rd3Vepv2BCGVA2ynwKixOHHA0.png" alt="LEMON" />
+        </div>
+        <div class="alert-meta">
+          AlertID: {{alert_id}}
+        </div>
+      </header>
+      <div class="hero-wrap">
+        <div class="title-wrap">
+          <div class="suptitle">Registro de operaciones inusuales</div>
+          <div class="identity">
+            <h1>{{nombre_completo}}</h1>
+            <h1>– {{user_id}}</h1>
+            <div class="cta">
+              <a href="https://lemon.me" class="btn">Ver KYCs</a>
+            </div>
+          </div>
+          <div class="badge-line">CUIL: {{cuil}}</div>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <div class="cards">
+          <!-- Datos personales -->
+          <article class="card">
+            <h3>Datos personales</h3>
+            <div class="sep"></div>
+            <div class="kv">
+              <div class="k">Fecha de nacimiento</div><div class="v">{{birthdate}}</div>
+              <div class="k">DNI</div><div class="v">{{dni}}</div>
+              <div class="k">Edad</div><div class="v">{{edad}}</div>
+              <div class="k">Nacionalidad</div><div class="v">{{nationality}}</div>
+              <div class="k">País de operación</div><div class="v">{{operation_country}}</div>
+              <div class="k">Domicilio</div><div class="v">{{direccion}}</div>
+              <div class="k">Email</div><div class="v">{{email}}</div>
+              <div class="k">Número de teléfono</div><div class="v">{{phone}}</div>
+              <div class="k">Actividad</div><div class="v">{{actividad}}</div>
+              <div class="k">NSE</div><div class="v">{{nse}}</div>
+              <div class="k">Ingreso estimado</div><div class="v">${{ingreso_promedio}}</div>
+              <div class="k">Risk Level</div><div class="v">{{base_risk_level}}</div>
+              <div class="k">Estado civil</div><div class="v">{{civil_status}}</div>
+            </div>
+          </article>
+
+          <!-- Datos de la cuenta -->
+          <article class="card">
+            <h3>Datos de la cuenta</h3>
+            <div class="sep"></div>
+            <div class="kv">
+              <div class="k">UserID</div><div class="v">{{user_id}}</div>
+              <div class="k">Lemontag</div><div class="v">{{lemontag}}</div>
+              <div class="k">Estado</div><div class="v">{{estado_usuario}}</div>
+              <div class="k">Nivel</div><div class="v">{{level}}</div>
+              <div class="k">Fecha creación</div><div class="v">{{alta_de_user}}</div>
+              <div class="k">Base P2P</div><div class="v">{{base_p2p}}</div>
+              <div class="k">Saldo en ARS en cuenta</div><div class="v">${{pesos_en_cuenta}}</div>
+              <div class="k">Cantidad de dispositivos distintos</div><div class="v">{{dispositivos_lastyear}}</div>
+              <div class="k">Usuarios que comparten dispositivo</div><div class="v">{{cant_users_relacionadas}}</div>
+            </div>
+          </article>
+
+          <!-- Datos de la alerta -->
+          <article class="card card-full">
+            <h3>Datos de la alerta</h3>
+            <div class="sep"></div>
+            <div class="kv">
+              <div class="k">AlertID</div><div class="v">{{alert_id}}</div>
+              <div class="k">Fecha alerta</div><div class="v">{{fecha_alerta}}</div>
+              <div class="k">Periodo analizado</div><div class="v">{{periodo_analizado}}</div>
+              <div class="k">Descripción</div><div class="v">{{inusualidad}}</div>
+              <div class="k">Volumen operado (USD)</div><div class="v">{{monto_operado}}</div>
+            </div>
+
+            <div class="sep"></div>
+            <div class="kv" style="grid-template-columns:1fr">
+              <div class="k" style="font-weight:700;color:var(--ink)">Historial de alertas:</div>
+              <div class="v" style="font-weight:600">
+                <ul style="margin:3px 0 0 14px;padding:0; line-height: 1.3;">
+                  {{#each historial_alertas}}
+                  <li>AlertID: {{this.alert_id}} | Monto operado: {{this.monto_operado}} | Periodo analizado: {{this.periodo_analizado}}</li>
+                  {{/each}}
+                </ul>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="footer-dark" style="margin-left:20px;margin-right:20px;">
+        <div>Documento confidencial. Prohibida su difusión sin autorización.</div>
+        <div>Página 1</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- HOJA 2 - PÁGINA 1: Análisis transaccional -->
+  <div id="hoja-2-container" class="hoja-container">
+    <section class="page" style="padding: 20px 20px 12px;">
+      <div class="container">
+        <div class="title-section" style="margin-bottom: 14px;">
+          <h1 class="main-title" style="margin: 0 0 14px;">Análisis transaccional (últ. 6 meses) {{periodo_analizado}}</h1>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card card-large" style="padding: 16px;">
+            <div class="card-title">Evolución transaccional</div>
+            <div class="chart-placeholder chart-placeholder-large" style="height: 270px;">
+              <img src="{{chart_url1_querys1}}" alt="Gráfico transaccional" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+
+          <div class="metrics-column" style="gap: 14px;">
+            <div class="card card-small" style="padding: 14px;">
+              <div class="metric-value">{{max_monto_diario}}</div>
+              <div class="metric-label">Máximo operado diariamente</div>
+            </div>
+            <div class="card card-small" style="padding: 14px;">
+              <div class="metric-value">{{total_op_mensual}}</div>
+              <div class="metric-label">Máximo operado mensualmente</div>
+            </div>
+            <div class="card card-small" style="padding: 14px;">
+              <div class="metric-value">{{total_operado}}</div>
+              <div class="metric-label">Total operado ARS</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-grid-four" style="margin-bottom: 0;">
+          <div class="card card-medium" style="padding: 14px;">
+            <div class="card-title">Porcentaje con empresas y extranjeros</div>
+            <div class="chart-placeholder" style="height: 200px;">
+              <img src="{{chart_url1_querys2}}" alt="Gráfico" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="card card-medium" style="padding: 14px;">
+            <div class="card-title">Contrapartes con empresas y extranjeros</div>
+            <div class="chart-placeholder" style="height: 200px;">
+              <img src="{{chart_url2_querys2}}" alt="Gráfico" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="card card-medium" style="padding: 14px;">
+            <div class="card-title">Total recibidos por contrapartes riesgosas</div>
+            <div class="chart-placeholder" style="height: 200px;">
+              <img src="{{chart_url3_querys2}}" alt="Gráfico" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="card card-medium" style="padding: 14px;">
+            <div class="card-title">Total enviado a contrapartes riesgosas</div>
+            <div class="chart-placeholder" style="height: 200px;">
+              <img src="{{chart_url4_querys2}}" alt="Gráfico" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-dark">
+        <div>Documento confidencial. Prohibida su difusión sin autorización.</div>
+        <div>Página 2</div>
+      </div>
+    </section>
+
+    <!-- HOJA 2 - PÁGINA 2: Top 5 y dispositivos -->
+    <section class="page" style="padding: 20px 20px 12px;">
+      <div class="container">
+        <div class="top5-grid">
+          <div class="card card-medium" style="padding: 14px;">
+            <div class="card-title">Top 5 egresos transferencia</div>
+            <div class="chart-placeholder chart-placeholder-small" style="height: 220px;">
+              <img src="{{chart_url1_querys3}}" alt="Gráfico" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="card card-medium" style="padding: 14px;">
+            <div class="card-title">Top 5 ingresos transferencia</div>
+            <div class="chart-placeholder chart-placeholder-small" style="height: 220px;">
+              <img src="{{chart_url2_querys3}}" alt="Gráfico" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+        </div>
+
+        <div class="w2w-grid">
+          <div class="card card-medium" style="padding: 14px;">
+            <div class="card-title">Top 5 egresos W2W</div>
+            <div class="chart-placeholder chart-placeholder-small" style="height: 220px;">
+              <img src="{{chart_url3_querys3}}" alt="Gráfico" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+          <div class="card card-medium" style="padding: 14px;">
+            <div class="card-title">Top 5 ingresos W2W</div>
+            <div class="chart-placeholder chart-placeholder-small" style="height: 220px;">
+              <img src="{{chart_url4_querys3}}" alt="Gráfico" style="max-height:100%;width:100%;object-fit:contain;">
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container" style="padding:18px;">
+          {{{tabla_dispositivos_html}}}
+        </div>
+
+      </div>
+      <div class="footer-dark">
+        <div>Documento confidencial. Prohibida su difusión sin autorización.</div>
+        <div>Página 3</div>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>

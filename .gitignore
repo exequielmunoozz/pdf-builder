@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Data / DB
+data/
+*.db
+
+# Environment
+.env
+!.env.example
+
+# Build output
+client/dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+.claude/
+
+# Legacy Node backend
+server/
+package.json
+package-lock.json
+start-frontend.sh
+
+# Playwright browsers (downloaded at build time)
+playwright-browsers/
