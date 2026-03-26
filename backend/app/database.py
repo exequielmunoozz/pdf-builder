@@ -44,17 +44,15 @@ async def run_migrations():
         sql = f.read()
 
     async with engine.begin() as conn:
-        if is_sqlite:
-            # SQLite: execute statements one by one
-            for stmt in sql.split(";"):
-                stmt = stmt.strip()
-                if stmt:
-                    try:
-                        await conn.execute(text(stmt))
-                    except Exception as e:
-                        if "already exists" not in str(e):
-                            print(f"  ⚠️ {e}")
-        else:
-            await conn.execute(text(sql))
+        # Execute statements one by one to avoid bind parameter issues
+        for stmt in sql.split(";"):
+            stmt = stmt.strip()
+            if stmt:
+                try:
+                    # Use exec_driver_sql to bypass SQLAlchemy's text() parsing
+                    await conn.exec_driver_sql(stmt)
+                except Exception as e:
+                    if "already exists" not in str(e):
+                        print(f"  ⚠️ {e}")
 
     print(f"✅ Database tables ready ({'SQLite' if is_sqlite else 'PostgreSQL'})")

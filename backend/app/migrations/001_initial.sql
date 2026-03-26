@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS pdf_templates (
   html_content  TEXT NOT NULL,
   css_content   TEXT,
   category      VARCHAR(100),
-  page_config   JSONB DEFAULT '{"format":"A4","landscape":false,"margin":{"top":"0","right":"0","bottom":"0","left":"0"}}',
+  page_config   JSONB DEFAULT '{}',
   created_by    VARCHAR(255),
   created_at    TIMESTAMP DEFAULT NOW(),
   updated_at    TIMESTAMP DEFAULT NOW()
