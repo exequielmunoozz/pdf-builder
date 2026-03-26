@@ -18,8 +18,10 @@ WORKDIR /app
 COPY backend/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Playwright Chromium + system deps
-RUN playwright install --with-deps chromium
+# Install Playwright Chromium in a shared path accessible by appuser
+ENV PLAYWRIGHT_BROWSERS_PATH=/opt/playwright-browsers
+RUN playwright install --with-deps chromium \
+    && chmod -R 755 /opt/playwright-browsers
 
 # Copy backend code
 COPY backend/ ./backend/
